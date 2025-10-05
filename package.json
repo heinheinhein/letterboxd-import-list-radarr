@@ -1,0 +1,30 @@
+{
+  "name": "letterboxd-import-list-radarr",
+  "version": "1.0",
+  "homepage": "https://github.com/heinheinhein/letterboxd-import-list-radarr",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run out/index.js",
+    "dev": "bun --watch run src/index.ts",
+    "build": "bun build src/index.ts --outdir ./out --target bun",
+    "drizzle:generate": "drizzle-kit generate",
+    "prettier": "prettier . --write"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.23",
+    "drizzle-kit": "^0.31.5",
+    "prettier": "3.6.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "adze": "^2.2.5",
+    "cheerio": "^1.1.2",
+    "drizzle-orm": "^0.44.6",
+    "p-throttle": "^8.0.0",
+    "robots-parser": "^3.0.1"
+  }
+}

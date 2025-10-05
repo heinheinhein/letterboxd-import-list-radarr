@@ -1,0 +1,11 @@
+node_modules/
+out/
+.dockerignore
+.env
+.gitignore
+.prettierignore
+.prettierrc
+cache.sqlite
+compose.yaml
+Dockerfile
+README.md
