@@ -1,0 +1,10 @@
+services:
+  letterboxd-import-list-radarr:
+    image: ghcr.io/heinheinhein/letterboxd-import-list-radarr
+    ports:
+      - 3000:3000
+    environment:
+      - TZ=Europe/Amsterdam
+    volumes:
+      - /path/to/cache:/app/cache # optional, make cached films persistent
+    restart: unless-stopped
