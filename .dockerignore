@@ -1,3 +1,4 @@
+cache/
 node_modules/
 out/
 .dockerignore
@@ -5,7 +6,6 @@ out/
 .gitignore
 .prettierignore
 .prettierrc
-cache.sqlite
 compose.yaml
 Dockerfile
 README.md

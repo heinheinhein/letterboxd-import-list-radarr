@@ -8,7 +8,7 @@ import { extractTmdbId } from "./parse";
 import { logger } from "./logger";
 import { ids } from "./db/schema";
 
-const sqlite = new Database("cache.sqlite", { strict: true });
+const sqlite = new Database("cache/cache.sqlite", { strict: true });
 const db = drizzle({ client: sqlite, casing: "snake_case" });
 migrate(db, { migrationsFolder: "drizzle" });
 
