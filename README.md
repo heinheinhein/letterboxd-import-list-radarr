@@ -44,4 +44,5 @@ Most Letterboxd pages that [allow crawling](https://letterboxd.com/robots.txt) a
 ## Notes
 
 - Big lists (>1000 films) may timeout on the first request. The results will be cached to make subsequent requests faster, so try again after a couple of minutes.
-- Some pages (like https://letterboxd.com/films/popular/) require client-side javascript to render the films and cannot be scraped by this program.
+- Some pages (like https://letterboxd.com/films/popular/) require client-side javascript to render the films and cannot be scraped by this application.
+- By default the application will error when a list has 0 films in it. If you don't want this behaviour and instead want an empty array returned, you can append `?allow-empty-list` to the URL.

@@ -12,7 +12,7 @@ const server = Bun.serve({
     fetch: handleRequest,
     error(error) {
         logger.error(error.message);
-        return new Response(`Internal error ${error.message}`, { status: 500 });
+        return new Response(`Internal error: ${error.message}`, { status: 500 });
     },
 });
 
@@ -23,14 +23,10 @@ async function handleRequest(req: Request): Promise<Response> {
     const path = url.pathname;
     logger.info(`${req.method} ${path}`);
 
-    if (path === "/" || path === "/favicon.ico") {
-        return new Response(null, { status: 404 });
-    }
-
     const html = await fetchHtml(path);
 
     const numberOfPages = getNumberOfPages(html);
-    logger.debug(`List ${path} has ${numberOfPages} of pages`);
+    logger.debug(`List ${path} has ${numberOfPages} page(s)`);
 
     let letterboxdItems: LetterboxdItem[];
 
@@ -43,11 +39,11 @@ async function handleRequest(req: Request): Promise<Response> {
             // html for the first page is already fetched
             if (index === 0) {
                 const filmsOnPage = getFilmsOnPage(html);
-                logger.debug(`Found ${filmsOnPage.length} films on page ${p}`);
+                logger.debug(`Found ${filmsOnPage.length} film(s) on page ${p}`);
                 return filmsOnPage;
             }
             const filmsOnPage = getFilmsOnPage(await fetchHtml(p));
-            logger.debug(`Found ${filmsOnPage.length} films on page ${p}`);
+            logger.debug(`Found ${filmsOnPage.length} film(s) on page ${p}`);
             return filmsOnPage;
         });
 
@@ -57,12 +53,22 @@ async function handleRequest(req: Request): Promise<Response> {
 
     // filter duplicate films out
     letterboxdItems = [...new Map(letterboxdItems.map((item) => [item.id, item])).values()];
-    console.log(letterboxdItems);
 
     const importList = (await Promise.all(letterboxdItems.map(getTmdbId)))
         .filter((id) => id !== null)
         .map((id) => ({ id }));
-    logger.debug(`Mathed ${importList.length} TMDB ids for list ${path}`);
+    logger.debug(`Matched ${importList.length} TMDB id(s) for list ${path}`);
+
+    if (importList.length === 0) {
+        const searchParams = new URL(req.url).searchParams;
+        if (!searchParams.has("allow-empty-list")) {
+            logger.error(`Found 0 films in list ${path} and \`?allow-empty-list\` is not set`);
+            return new Response(
+                "Internal error: Found 0 films in list. If this is expected consider appending `?allow-empty-list` to the request URL to prevent future errors.",
+                { status: 500 },
+            );
+        }
+    }
 
     return Response.json(importList);
 }
