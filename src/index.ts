@@ -55,6 +55,10 @@ async function handleRequest(req: Request): Promise<Response> {
         letterboxdItems = pages.flat(1);
     }
 
+    // filter duplicate films out
+    letterboxdItems = [...new Map(letterboxdItems.map((item) => [item.id, item])).values()];
+    console.log(letterboxdItems);
+
     const importList = (await Promise.all(letterboxdItems.map(getTmdbId)))
         .filter((id) => id !== null)
         .map((id) => ({ id }));
