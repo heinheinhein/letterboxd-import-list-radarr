@@ -10,6 +10,7 @@
     "dev": "bun --watch run src/index.ts",
     "build": "bun build src/index.ts --outdir ./out --target bun",
     "drizzle:generate": "drizzle-kit generate",
+    "fixtures:download": "bun run test/fixtures.ts",
     "prettier": "prettier . --write"
   },
   "devDependencies": {

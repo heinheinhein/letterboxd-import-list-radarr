@@ -1,6 +1,7 @@
 cache/
 node_modules/
 out/
+test/
 .dockerignore
 .env
 .gitignore
